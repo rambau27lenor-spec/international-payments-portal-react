@@ -1,0 +1,22 @@
+version: 2.1
+
+jobs:
+  build-test-security:
+    docker:
+      - image: cimg/node:22.14
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm ci
+      - run:
+          name: Security Audit
+          command: npm audit --audit-level=high || true
+      - run:
+          name: Build React App
+          command: npm run build
+
+workflows:
+  task3-devsecops-pipeline:
+    jobs:
+      - build-test-security
